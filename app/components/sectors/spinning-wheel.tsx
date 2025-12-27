@@ -45,10 +45,12 @@ export default function SpinningWheel({
 }: SpinningWheelProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [highlightOffset, setHighlightOffset] = useState(280);
+  const [targetAngle, setTargetAngle] = useState(-45);
 
   useEffect(() => {
     const handleResize = () => {
       setHighlightOffset(window.innerWidth < 1024 ? 120 : 280);
+      setTargetAngle(window.innerWidth < 1024 ? -90 : -45);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -58,9 +60,7 @@ export default function SpinningWheel({
   const numSectors = items.length;
   const anglePerSector = 360 / numSectors;
 
-  const TARGET_ANGLE = window.innerWidth < 1024 ? -90 : -45;
-
-  const currentRotation = TARGET_ANGLE - selectedIndex * anglePerSector;
+  const currentRotation = targetAngle - selectedIndex * anglePerSector;
 
   const createSectorPath = (
     index: number,
@@ -177,7 +177,7 @@ export default function SpinningWheel({
           size + 160
         }`}
         className="absolute pointer-events-none overflow-visible z-20"
-        style={{ transform: `rotate(${TARGET_ANGLE}deg)` }}
+        style={{ transform: `rotate(${targetAngle}deg)` }}
       >
         <path
           d={createHighlightPath(0, numSectors, innerRadius, outerRadius + 90)}
