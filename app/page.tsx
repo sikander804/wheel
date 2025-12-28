@@ -39,11 +39,12 @@ export default function Home() {
         }}
       />
       <div className="flex flex-col items-start justify-center relative shrink-0 w-full">
-        <div className="flex items-center justify-center relative w-full flex-col md:flex-col lg:flex-row">
+        <div className="flex items-center justify-center relative w-full flex-col md:flex-col lg:flex-row lg:gap-2 lg:pr-22">
           <SpinningWheel
             size={wheelSize}
             items={SECTOR_NAMES}
             onSelect={(item) => setSelectedSectorName(item)}
+            className="shrink-0"
           />
           <SectorInfoPanel data={selectedSectorData} />
         </div>

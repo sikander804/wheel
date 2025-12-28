@@ -9,7 +9,7 @@ interface SectorInfoPanelProps {
 
 export default function SectorInfoPanel({ data }: SectorInfoPanelProps) {
   return (
-    <div className="z-100 bg-[rgba(0,0,0,0.4)] border border-[#009893] border-solid flex flex-col items-start relative rounded-xl shrink-0 w-full lg:max-w-[580px] h-[700px]">
+    <div className="z-100 bg-[rgba(0,0,0,0.4)] border border-[#009893] border-solid flex flex-col items-start relative rounded-xl shrink-0 w-full lg:max-w-[580px] h-[700px] shadow-[-50px_0_60px_-15px_rgba(0,0,0,0.6)]">
       <div className="backdrop-blur-[15px] overflow-hidden content-stretch flex flex-col items-start rounded-xl pb-4 pt-6 px-5 relative shrink-0 w-full flex-1">
         <div className="content-stretch flex flex-col items-start relative shrink-0 w-full h-full">
           <div className="content-stretch flex flex-col gap-5 items-start relative shrink-0 w-full h-full">

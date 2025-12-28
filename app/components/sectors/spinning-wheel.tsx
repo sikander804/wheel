@@ -49,6 +49,25 @@ export default function SpinningWheel({
   const [logoSize, setLogoSize] = useState(170);
   const [unselectedFontSize, setUnselectedFontSize] = useState(12);
 
+  const [isAutoCycling, setIsAutoCycling] = useState(true);
+  const rotationDuration = isAutoCycling ? 1000 : 500;
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isAutoCycling) {
+      interval = setInterval(() => {
+        setSelectedIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % items.length;
+          if (onSelect) {
+            onSelect(items[nextIndex], nextIndex);
+          }
+          return nextIndex;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isAutoCycling, items, onSelect]);
+
   useEffect(() => {
     const handleResize = () => {
       setHighlightOffset(window.innerWidth < 1024 ? 120 : 280);
@@ -180,6 +199,7 @@ export default function SpinningWheel({
   const innerRadius = size / 9;
 
   const handleSectorClick = (index: number) => {
+    setIsAutoCycling(false);
     setSelectedIndex(index);
     if (onSelect) {
       onSelect(items[index], index);
@@ -196,9 +216,10 @@ export default function SpinningWheel({
       }}
     >
       <div
-        className="absolute inset-0 transition-transform duration-1000 ease-out z-10"
+        className="absolute inset-0 transition-transform ease-out z-10"
         style={{
           transform: `rotate(${currentRotation}deg)`,
+          transitionDuration: `${rotationDuration}ms`,
         }}
       >
         <svg
@@ -209,6 +230,50 @@ export default function SpinningWheel({
           }`}
           className="overflow-visible"
         >
+          <defs>
+            <linearGradient id="highlight-gradient" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="rgba(0, 167, 162, 1)" />
+              <stop offset="100%" stopColor="rgba(0, 167, 162,1)" />
+            </linearGradient>
+            <filter
+              id="inset-shadow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feOffset dx="0" dy="19" />
+              <feGaussianBlur stdDeviation="12" result="offset-blur" />
+              <feComposite
+                operator="out"
+                in="SourceGraphic"
+                in2="offset-blur"
+                result="inverse"
+              />
+              <feFlood floodColor="black" floodOpacity="0.25" result="color" />
+              <feComposite
+                operator="in"
+                in="color"
+                in2="inverse"
+                result="shadow"
+              />
+              <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+            </filter>
+            <filter
+              id="selected-slice-shadow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feDropShadow
+                dx="0"
+                dy="4"
+                stdDeviation="8"
+                floodColor="rgba(0,0,0,0.5)"
+              />
+            </filter>
+          </defs>
           <g>
             {items.map((_, index) => (
               <g key={`sector-${index}`}>
@@ -239,76 +304,41 @@ export default function SpinningWheel({
               </g>
             ))}
           </g>
+          <g transform={`rotate(${selectedIndex * (360 / numSectors)})`}>
+            <g filter="url(#selected-slice-shadow)">
+              <path
+                d={createHighlightPath(
+                  0,
+                  numSectors,
+                  innerRadius,
+                  outerRadius + 90
+                )}
+                fill="url(#highlight-gradient)"
+                stroke="none"
+                filter="url(#inset-shadow)"
+                opacity={1}
+              />
+            </g>
+            <path
+              d={createHighlightBorderPath(
+                0,
+                numSectors,
+                innerRadius,
+                outerRadius + 90
+              )}
+              fill="none"
+              // stroke="rgba(255, 255, 255, 0.10)"
+              // strokeWidth="1.385"
+            />
+          </g>
         </svg>
       </div>
 
-      <svg
-        width="100%"
-        height="100%"
-        viewBox={`-${size / 2 + 80} -${size / 2 + 80} ${size + 160} ${
-          size + 160
-        }`}
-        className="absolute pointer-events-none overflow-visible z-20"
-        style={{ transform: `rotate(${targetAngle}deg)` }}
-      >
-        <defs>
-          <linearGradient id="highlight-gradient" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stopColor="rgba(0, 167, 162, 1)" />
-            <stop offset="100%" stopColor="rgba(0, 167, 162,1)" />
-          </linearGradient>
-          <filter
-            id="inset-shadow"
-            x="-50%"
-            y="-50%"
-            width="200%"
-            height="200%"
-          >
-            <feOffset dx="0" dy="19" />
-            <feGaussianBlur stdDeviation="12" result="offset-blur" />
-            <feComposite
-              operator="out"
-              in="SourceGraphic"
-              in2="offset-blur"
-              result="inverse"
-            />
-            <feFlood floodColor="black" floodOpacity="0.25" result="color" />
-            <feComposite
-              operator="in"
-              in="color"
-              in2="inverse"
-              result="shadow"
-            />
-            <feComposite operator="over" in="shadow" in2="SourceGraphic" />
-          </filter>
-        </defs>
-        <path
-          d={createHighlightPath(0, numSectors, innerRadius, outerRadius + 90)}
-          fill="rgba(0, 0, 0, 0.30)"
-        />
-        <path
-          d={createHighlightPath(0, numSectors, innerRadius, outerRadius + 90)}
-          fill="url(#highlight-gradient)"
-          stroke="none"
-          filter="url(#inset-shadow)"
-          opacity={1}
-        />
-        <path
-          d={createHighlightBorderPath(
-            0,
-            numSectors,
-            innerRadius,
-            outerRadius + 90
-          )}
-          fill="none"
-          // stroke="rgba(255, 255, 255, 0.10)"
-          // strokeWidth="1.385"
-        />
-      </svg>
-
       <div
-        className="absolute inset-0 transition-transform duration-1000 ease-out z-30 pointer-events-none"
+        className="absolute inset-0 transition-transform ease-out z-30 pointer-events-none"
         style={{
           transform: `rotate(${currentRotation}deg)`,
+          transitionDuration: `${rotationDuration}ms`,
         }}
       >
         <svg
@@ -428,7 +458,7 @@ export default function SpinningWheel({
         </svg>
         <div className="absolute inset-0 text-white text-center flex justify-center items-center flex-col scale-[0.6] lg:scale-100 transition-transform duration-300">
           <Image src="/logo.svg" alt="Logo" width={40} height={40} />
-          <div className="text-xs font-normal leading-[1.5]">NIS</div>
+          <div className="text-xs font-normal leading-normal">NIS</div>
         </div>
       </div>
       {/* <div
@@ -440,7 +470,7 @@ export default function SpinningWheel({
       >
         <div className="text-white text-center flex justify-center items-center flex-col scale-[0.6] lg:scale-100 transition-transform duration-300">
           <Image src="/logo.svg" alt="Logo" width={40} height={40} />
-          <div className="text-xs font-normal leading-[1.5]">NIS</div>
+          <div className="text-xs font-normal leading-normal">NIS</div>
         </div>
       </div> */}
     </div>
