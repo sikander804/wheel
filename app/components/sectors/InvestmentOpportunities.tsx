@@ -11,14 +11,14 @@ export default function InvestmentOpportunities({
   cardColors,
 }: InvestmentOpportunitiesProps) {
   return (
-    <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-      <div className="content-stretch grid grid-cols-1 md:grid-cols-2 gap-[12px] items-stretch relative shrink-0 w-full">
+    <div className="content-stretch flex flex-col gap-2 items-start relative shrink-0 w-full">
+      <div className="content-stretch grid grid-cols-1 sm:grid-cols-2 gap-2 items-stretch relative shrink-0 w-full">
         {opportunities.map((opportunity, index) => {
           const cardColor = cardColors?.[index % cardColors.length];
           return (
             <div
               key={opportunity.id}
-              className={`backdrop-blur-[15px] backdrop-filter content-stretch flex flex-[1_0_0] flex-col gap-[24px] items-start min-h-px min-w-px overflow-clip p-[20px] relative rounded-[24px] shrink-0 h-full ${
+              className={`backdrop-blur-[15px] backdrop-filter content-stretch flex flex-[1_0_0] flex-col gap-3 items-start min-h-px min-w-px overflow-clip p-3 relative rounded-xl shrink-0 h-full ${
                 !cardColor ? "bg-[rgba(0,0,0,0.5)]" : ""
               }`}
               style={
@@ -29,97 +29,83 @@ export default function InvestmentOpportunities({
                   : undefined
               }
             >
-              <div className="absolute flex h-[1204.078px] items-center justify-center right-[-776.63px] top-[0.13px] w-[1392.128px]">
-                <div className="flex-none rotate-[25.562deg] scale-y-[-100%]">
-                  <div className="h-[773.591px] relative w-[1173.163px]">
-                    {/* <div className="absolute inset-[-25.85%_-17.05%]">
-                    <Image
-                      alt=""
-                      src={index === 0 ? "/leaf.svg" : "/leaf.svg"}
-                      width={20.163}
-                      height={20.591}
-                      objectFit="contain"
-                      className="block max-w-none size-full"
-                    />
-                  </div> */}
-                  </div>
-                </div>
-              </div>
-              <div className="content-stretch flex flex-col items-start min-w-[240px] overflow-clip relative shrink-0 w-full h-full justify-between">
-                <div className="content-stretch flex flex-col gap-[18px] items-start relative shrink-0 w-full">
-                  <div className="content-stretch flex flex-col gap-[14px] items-start relative shrink-0 w-full">
-                    <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
-                      <div className="flex flex-[1_0_0] flex-col font-['29LT_Bukra:Bold_Italic',sans-serif] font-bold justify-center leading-[0] min-h-px min-w-px relative shrink-0 text-white text-[16px]">
-                        <p className="leading-[1.5] whitespace-pre-wrap">
+              <div className="content-stretch flex flex-col items-start min-w-[160px] overflow-clip relative shrink-0 w-full h-full justify-between">
+                <div className="content-stretch flex flex-col gap-2 items-start relative shrink-0 w-full">
+                  <div className="content-stretch flex flex-col gap-1.5 items-start relative shrink-0 w-full">
+                    <div className="content-stretch flex gap-1.5 items-center relative shrink-0 w-full">
+                      <div className="flex flex-[1_0_0] flex-col font-['29LT_Bukra:Bold_Italic',sans-serif] font-bold justify-center leading-[1.2] min-h-px min-w-px relative shrink-0 text-white text-xs">
+                        <p className="whitespace-pre-wrap">
                           {opportunity.title}
                         </p>
                       </div>
                       {index === 0 && (
-                        <div className="overflow-clip relative shrink-0 size-[26px]">
-                          <div className="absolute inset-[21.67%_1.65%_23.33%_1.66%]">
+                        <div className="overflow-clip relative shrink-0 size-[16px]">
+                          <div className="absolute inset-0">
                             <Image
                               alt=""
                               src={"/leaf.svg"}
-                              width={26}
-                              height={26}
+                              width={16}
+                              height={16}
                               className="block max-w-none size-full"
                             />
                           </div>
                         </div>
                       )}
                     </div>
-                    <div className="backdrop-blur-[10px] backdrop-filter bg-[rgba(0,0,0,0.4)] content-stretch flex gap-[6px] items-center justify-center px-[8px] py-[5px] relative rounded-[50px] shrink-0">
-                      <div className="relative shrink-0 size-[14px]">
-                        <div className="absolute inset-[5.21%_9.38%]">
+                    <div className="backdrop-blur-[10px] backdrop-filter bg-[rgba(0,0,0,0.4)] content-stretch flex gap-1 items-center justify-center px-2 py-1 relative rounded-full shrink-0">
+                      <div className="relative shrink-0 size-[10px]">
+                        <div className="absolute inset-0 flex items-center justify-center">
                           <Image
                             alt=""
                             src={"/location.svg"}
-                            width={14}
-                            height={14}
+                            width={10}
+                            height={10}
                             className="block max-w-none size-full"
                           />
                         </div>
                       </div>
-                      <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-[#00a7a2] text-[12px]">
+                      <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.2] relative shrink-0 text-[#00a7a2] text-[9px]">
                         {opportunity.location}
                       </p>
                     </div>
                   </div>
-                  <p className="line-clamp-2 font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.5] opacity-90 overflow-hidden relative shrink-0 text-[14px] text-white w-full">
+                  <p className="line-clamp-3 font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.4] opacity-90 overflow-hidden relative shrink-0 text-[10px] text-white w-full">
                     {opportunity.description}
                   </p>
-                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-full mt-auto">
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-full mt-auto pt-1.5">
                     <div className="flex flex-row items-center self-stretch">
                       <div className="content-stretch flex h-full items-center relative shrink-0">
-                        <div className="content-stretch flex gap-[9px] items-center relative shrink-0">
-                          <div className="relative shrink-0 size-[17px]">
-                            <div className="absolute inset-[5.21%]">
+                        <div className="content-stretch flex gap-1 items-center relative shrink-0">
+                          <div className="relative shrink-0 size-[12px]">
+                            <div className="absolute inset-0">
                               <Image
                                 alt=""
                                 src={"/cash.svg"}
-                                width={17}
-                                height={17}
+                                width={12}
+                                height={12}
                                 className="block max-w-none size-full"
                               />
                             </div>
                           </div>
-                          <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.5] opacity-80 relative shrink-0 text-white text-[12px]">
-                            Investment Size:
-                          </p>
-                          <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-white text-[14px]">
-                            {opportunity.investmentSize}
-                          </p>
+                          <div className="flex flex-col">
+                            <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.2] opacity-80 relative shrink-0 text-white text-[8px]">
+                              Investment Size:
+                            </p>
+                            <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.2] relative shrink-0 text-white text-[10px]">
+                              {opportunity.investmentSize}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="bg-[rgba(0,0,0,0.3)] border border-[rgba(255,255,255,0.42)] border-solid content-stretch flex items-center justify-center relative rounded-[28.923px] shrink-0 size-[32px]">
-                      <div className="relative shrink-0 size-[20.143px]">
-                        <div className="absolute inset-[21.86%_21.88%_21.87%_21.87%]">
+                    <div className="bg-[rgba(0,0,0,0.3)] border border-[rgba(255,255,255,0.42)] border-solid content-stretch flex items-center justify-center relative rounded-full shrink-0 size-[24px]">
+                      <div className="relative shrink-0 size-[12px]">
+                        <div className="absolute inset-0 flex items-center justify-center">
                           <Image
                             alt=""
                             src={"/arrow-right-up.svg"}
-                            width={20.143}
-                            height={20.143}
+                            width={12}
+                            height={12}
                             className="block max-w-none size-full"
                           />
                         </div>
@@ -132,9 +118,9 @@ export default function InvestmentOpportunities({
           );
         })}
       </div>
-      <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
+      <div className="content-stretch flex gap-3 items-center relative shrink-0 w-full mt-1">
         <div className="bg-[rgba(255,255,255,0.3)] flex-[1_0_0] h-px min-h-px min-w-px shrink-0" />
-        <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-white text-[16px] text-center">
+        <p className="font-['29LT_Bukra:Regular',sans-serif] font-normal leading-normal relative shrink-0 text-white text-[10px] text-center">
           View More
         </p>
         <div className="bg-[rgba(255,255,255,0.3)] flex-[1_0_0] h-px min-h-px min-w-px shrink-0" />
